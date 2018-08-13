@@ -53,7 +53,7 @@ client.on('message', message => {
         let args = message.content.split(' ').slice(1).join(' ');
     if(message.content.split(' ')[0] == prefix + 'bc') {
         if (!args[1]) {
-    message.channel.send("** {prefix} bc <message>**");
+    message.channel.send("**$bc <message>**");
     return;
     }
             message.guild.members.forEach(m => {
@@ -170,48 +170,71 @@ client.on('message', msg => {
 
 
 
-client.on('message', function(message) {
-    if (!message.member.hasPermissions(['ADMINISTRATOR'])){
-            let command = message.content.split(" ")[0];
-        if(message.content.includes('discord.gg')){
-        message.reply (' ')
-           if(!message.channel.guild) return message.reply('** This command only for servers**');
-     message.member.addRole(message.guild.roles.find('name', 'Muted')); 
-    const embed500 = new Discord.RichEmbed()
-      .setTitle(":x: | تمت معاقبتك ${member}  ")
-      .addField(`by`,`By : End !`)
-            .setColor("c91616")
-            .setThumbnail(`${message.author.avatarURL}`)
-            .setAuthor(message.author.username, message.author.avatarURL) 
-        .setFooter(`${message.guild.name} Server`)
-     message.channel.send(embed500) 
-    
-        
+
+
+
+client.on('message', ( message ) => {
+  if(message.author.bot) return;
+
+  if(message.channel.id !== '478453960252981268') return;
+
+  let types = [
+    'jpg',
+    'jpeg',
+    'png',
+    'gif',
+    'mp4',
+    'avi',
+    'mkv',
+    'mpeg'
+  ]
+
+  if (message.attachments.size <= 0) {
+    message.delete();
+    message.channel.send(`${message.author}, This channel for pics and vids only!`)
+    .then(msg => {
+      setTimeout(() => {
+        msg.delete();
+      }, 5000)
+  })
+  return;
+}
+
+  if(message.attachments.size >= 1) {
+    let filename = message.attachments.first().filename
+    console.log(filename);
+    if(!types.some( type => filename.endsWith(type) )) {
+      message.delete();
+      message.channel.send(`${message.author}, This channel for pics and vids only!`)
+      .then(msg => {
+        setTimeout(() => {
+          msg.delete();
+        }, 5000)
+      })
     }
-    }
+  }
+
 })
 
 
 
-client.on('message', message => {
-    if (!message.channel.guild) return;
-    if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply("***  ليس معك صلاحيات  ***")
-    var prefix = "$";
-       if (message.content ===   prefix + "add role") {
-    message.channel.send("<@" + message.author.id + ">  ***  جاري اعطاء الرتبة للاعضاء كما امرت  *** ")
-    message.guild.members.forEach(m => {
-    m.addRole(message.guild.roles.find('name', 'Ksa'))
-    })
-    }
-    
-       if (message.content ===   prefix + "remove role") {
-    message.channel.send("<@" + message.author.id + ">  ***  جاري اعطاء الرتبة للاعضاء كما امرت  *** ")
-    message.guild.members.forEach(m => {
-    m.removeRole(message.guild.roles.find('name', 'Ksa'))
-    })
-    }
-    
-    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
